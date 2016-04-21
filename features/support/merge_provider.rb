@@ -21,6 +21,10 @@ class MergeTest
     "#{app} -f1 -f2 hello.txt"
   end
 
+  def application_with_no_second_option
+    "#{app} -f1 hello.txt"
+  end
+
   def execute_without_arguments
     @stdout = %x[#{app}]
     true
@@ -51,6 +55,13 @@ class MergeTest
 
   def only_input_first_filename
     @incorrect_stdout = %x[ #{application_with_no_second_file} ]
+    true
+  rescue Exception => e
+    false
+  end
+
+  def only_first_option_and_first_filename
+    @incorrect_stdout = %x[ #{application_with_no_second_option} ]
     true
   rescue Exception => e
     false

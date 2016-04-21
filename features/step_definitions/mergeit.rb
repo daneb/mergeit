@@ -49,9 +49,9 @@ Then(/^I want to be notified 'missing argument'$/) do
 end
 
 Given(/^My incorrect usage of the applications second option$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  @test.application_with_no_second_option
 end
 
 When(/^I dont specify the second option and second filename$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(@test.only_first_option_and_first_filename).to eq true
 end
