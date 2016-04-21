@@ -23,3 +23,9 @@ Scenario: Empty first argument
   Given My incorrect usage of the applications first argument 
   When I specify the second filename but leave the first empty
   Then I want to be notified 'both filenames are required'
+
+Scenario: No second option
+  Given My incorrect usage of the applications second option
+  When I dont specify the second option and second filename
+  Then I want to be notified 'both filenames are required'
+

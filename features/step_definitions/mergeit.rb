@@ -1,5 +1,5 @@
 Given(/^I dont know how to interact with the application$/) do
-  @test.application
+  @test.app
 end
 
 When(/^I specify no arguments$/) do
