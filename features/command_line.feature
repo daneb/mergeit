@@ -9,11 +9,6 @@ Scenario: No command line arguments
   When I specify no arguments
   Then I want to be presented with information on how to use it
 
-Scenario: Only one command line argument
-  Given My incorrect usage of the application
-  When I specify only one argument in its use
-  Then I want to be notified 'two arguments required'
-
 Scenario: Incorrect argument
   Given My incorrect usage of the application argument names
   When I specify an incorrect argument name
