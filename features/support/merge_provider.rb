@@ -9,8 +9,12 @@ class MergeTest
     "bin/mergeit"
   end
 
-  def application_with_incorrect_argument_name
+  def application_with_incorrect_option_name
     "#{application} -p1 hello.txt -p2 world.txt"
+  end
+
+  def application_with_no_second_file
+    "#{application} -f1 hello.txt -f2 world.txt"
   end
 
   def execute_without_arguments
@@ -20,8 +24,8 @@ class MergeTest
     false
   end
 
-  def use_incorrect_argument_name
-    @incorrect_stdout = %x[#{application_with_incorrect_argument_name}]
+  def use_incorrect_option_name
+    @incorrect_stdout = %x[#{application_with_incorrect_option_name}]
     true
   rescue Exception => e
     false
@@ -39,7 +43,7 @@ class MergeTest
   end
 
   def incorrect_argument_name
-
+    @incorrect_stdout == "unknown option -p"
   end
 
 end

@@ -9,10 +9,11 @@ Scenario: No command line arguments
   When I specify no arguments
   Then I want to be presented with information on how to use it
 
-Scenario: Incorrect argument
-  Given My incorrect usage of the application argument names
-  When I specify an incorrect argument name
-  Then I want to be guided on what to do next
+Scenario: Incorrect option
+  Given My incorrect usage of the application option names
+  When I specify an incorrect option name
+  Then I want to be notified 'unknown option'
+  And I want to be guided on what to do next
 
 Scenario: Empty second argument
   Given My incorrect usage of the applications second argument

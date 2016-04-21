@@ -16,6 +16,7 @@ class MergeCommandLine
     [ @file1, @file2 ]
   rescue Exception => e
       puts e.message
+      exit
   end
 
   def parse_options
@@ -38,8 +39,9 @@ class MergeCommandLine
     @file2 = result[:file2]
   end
 
-  def print_banner(meta_info = '')
-    puts "#{meta_info} \n #{@banner}"
+  def print_banner(meta_info = nil)
+    banner = meta_info.nil? ? "#{@banner}" : "#{meta_info}\n #{@banner}"
+    puts banner
   end
 
   def validate_input
@@ -47,7 +49,7 @@ class MergeCommandLine
     exit if only_one_filename?
   rescue Slop::UnknownOption => e
     puts "Unknown option \n #{@banner}"
-    exit
+    exit 1
   end
 
   def only_one_filename?
@@ -70,5 +72,5 @@ end
 
 console = MergeCommandLine.new
 file1, file2 = console.process_command_line
-utility = Mergeit::Merge.new
-utility.say_hello(file1, file2)
+#utility = Mergeit::Merge.new
+#utility.say_hello(file1, file2)

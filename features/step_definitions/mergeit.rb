@@ -10,16 +10,20 @@ Then(/^I want to be presented with information on how to use it$/) do
   expect(@test.help_information_is_printed).to eq true
 end
 
-Given(/^My incorrect usage of the application argument names$/) do
-  @test.application_with_incorrect_argument_name
+Given(/^My incorrect usage of the application option names$/) do
+  @test.application_with_incorrect_option_name
 end
 
-When(/^I specify an incorrect argument name$/) do
-  expect(@test.use_incorrect_argument_name).to eq true
+When(/^I specify an incorrect option name$/) do
+  expect(@test.use_incorrect_option_name).to eq true
+end
+
+Then(/^I want to be notified 'unknown option'$/) do
+  pending # Write code here that turns the phrase above into concrete actions
 end
 
 Given(/^My incorrect usage of the applications second argument$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(@test.application_with_no_second_file)
 end
 
 When(/^I specify the first filename but not the second$/) do
