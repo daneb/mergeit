@@ -13,12 +13,15 @@ class MergeTest
     "#{app} -p1 hello.txt -p2 world.txt"
   end
 
-  def application_with_no_second_file
+  def application_with_no_first_file
     "#{app} -f1 hello.txt -f2"
   end
 
+  def application_with_no_second_file
+    "#{app} -f1 -f2 hello.txt"
+  end
+
   def execute_without_arguments
-    byebug
     @stdout = %x[#{app}]
     true
   rescue Exception => e
@@ -39,7 +42,14 @@ class MergeTest
     false
   end
 
-  def dont_use_second_filename
+  def only_input_second_filename
+    @incorrect_stdout = %x[ #{ application_with_only_second_file }]
+    true
+  rescue Exception => e
+    false
+  end
+
+  def only_input_first_filename
     @incorrect_stdout = %x[ #{application_with_no_second_file} ]
     true
   rescue Exception => e
@@ -56,6 +66,10 @@ class MergeTest
 
   def notified_missing_argument
     @incorrect_stdout.include?('missing argument')
+  end
+
+  def notified_missing_filenames
+    @incorrect_stdout.include?('both filenames are required')
   end
 
 end

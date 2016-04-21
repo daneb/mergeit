@@ -22,8 +22,22 @@ Then(/^I want to be notified 'unknown option'$/) do
   expect(@test.notified_with_unknown_option).to eq true
 end
 
+# First Argument Only and Empty Second Argument 
 Given(/^My incorrect usage of the applications second argument$/) do
   @test.application_with_no_second_file
+end
+
+When(/^I specify the second filename but leave the first empty$/) do
+  expect(@test.only_input_first_filename).to eq true
+end
+
+Then(/^I want to be notified 'both filenames are required'$/) do
+  expect(@test.notified_missing_filenames).to eq true
+end
+
+# Second Argument Only And Empty First Argument
+Given(/^My incorrect usage of the applications first argument$/) do
+  @test.application_with_no_first_file
 end
 
 When(/^I specify the first filename but not the second$/) do
@@ -34,14 +48,10 @@ Then(/^I want to be notified 'missing argument'$/) do
   expect(@test.notified_missing_argument).to eq true
 end
 
-Then(/^I want to be notified 'filename is required'$/) do
+Given(/^My incorrect usage of the applications second option$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given(/^My incorrect usage of the applications first argument$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-When(/^I specify the second filename but leave the first empty$/) do
+When(/^I dont specify the second option and second filename$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
