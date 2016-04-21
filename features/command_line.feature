@@ -13,14 +13,13 @@ Scenario: Incorrect option
   Given My incorrect usage of the application option names
   When I specify an incorrect option name
   Then I want to be notified 'unknown option'
-  And I want to be guided on what to do next
 
 Scenario: Empty second argument
   Given My incorrect usage of the applications second argument
   When I specify the first filename but not the second
-  Then I want to be notified 'filename is required'
+  Then I want to be notified 'missing argument'
 
 Scenario: Empty first argument
   Given My incorrect usage of the applications first argument 
   When I specify the second filename but leave the first empty
-  Then I want to be notified 'filename is required'
+  Then I want to be notified 'both filenames are required'

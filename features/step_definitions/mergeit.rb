@@ -19,19 +19,19 @@ When(/^I specify an incorrect option name$/) do
 end
 
 Then(/^I want to be notified 'unknown option'$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(@test.notified_with_unknown_option).to eq true
 end
 
 Given(/^My incorrect usage of the applications second argument$/) do
-  expect(@test.application_with_no_second_file)
+  @test.application_with_no_second_file
 end
 
 When(/^I specify the first filename but not the second$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(@test.dont_use_second_filename).to eq true
 end
 
-Then(/^I want to be guided on what to do next$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^I want to be notified 'missing argument'$/) do
+  expect(@test.notified_missing_argument).to eq true
 end
 
 Then(/^I want to be notified 'filename is required'$/) do

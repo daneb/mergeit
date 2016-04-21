@@ -14,7 +14,7 @@ class MergeTest
   end
 
   def application_with_no_second_file
-    "#{application} -f1 hello.txt -f2 world.txt"
+    "#{application} -f1 hello.txt -f2"
   end
 
   def execute_without_arguments
@@ -38,12 +38,23 @@ class MergeTest
     false
   end
 
+  def dont_use_second_filename
+    @incorrect_stdout = %x[ #{application_with_no_second_file} ]
+    true
+  rescue Exception => e
+    false
+  end
+
   def help_information_is_printed
     @stdout == VALID_BANNER
   end
 
-  def incorrect_argument_name
-    @incorrect_stdout == "unknown option -p"
+  def notified_with_unknown_option
+    @incorrect_stdout == "unknown option `-p'\n"
+  end
+
+  def notified_missing_argument
+    @incorrect_stdout.include?('missing argument')
   end
 
 end
