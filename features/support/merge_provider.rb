@@ -43,7 +43,7 @@ class MergeTest
   end
 
   def only_input_second_filename
-    @incorrect_stdout = %x[ #{ application_with_only_second_file }]
+    @incorrect_stdout = %x[ #{ application_with_no_first_file }]
     true
   rescue Exception => e
     false

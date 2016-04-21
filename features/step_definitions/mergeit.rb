@@ -41,7 +41,7 @@ Given(/^My incorrect usage of the applications first argument$/) do
 end
 
 When(/^I specify the first filename but not the second$/) do
-  expect(@test.dont_use_second_filename).to eq true
+  expect(@test.only_input_second_filename).to eq true
 end
 
 Then(/^I want to be notified 'missing argument'$/) do
