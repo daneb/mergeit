@@ -4,4 +4,4 @@ require "bundler/setup"
 require "mergeit"
 
 utility = Mergeit::Merge.new
-utility.say_hello
+utility.say_hello('file1', 'file2')
