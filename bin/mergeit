@@ -1,7 +1,76 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
+require "slop"
 require "mergeit"
+require 'byebug'
 
-utility = Mergeit::Merge.new
-utility.say_hello
+class MergeCommandLine
+  attr_reader :banner, :opts
+
+  def process_command_line
+    parse_options 
+    setup_globals
+    print_banner if no_filenames_specified?
+    print_banner('both filenames are required') if only_one_filename?
+    [ @file1, @file2 ]
+  rescue Exception => e
+      puts e.message
+      exit
+  end
+
+  def parse_options
+     @opts = Slop.parse do |o| 
+      o.string '-f1', '--file1', 'First source file'
+      o.string '-f2', '--file2', 'Second source file'
+      o.on '-v', '--version' do
+        puts Slop::VERSION
+        exit
+      end
+    end
+  rescue Exception => e
+    raise
+  end
+
+  def setup_globals
+    @banner = @opts.to_s
+    result = @opts.to_hash
+    @file1 = result[:file1]
+    @file2 = result[:file2]
+  end
+
+  def print_banner(meta_info = nil)
+    banner = meta_info.nil? ? "#{@banner}" : "#{meta_info}\n #{@banner}"
+    puts banner
+  end
+
+  def validate_input
+    exit if no_arguments?
+    exit if only_one_filename?
+  rescue Slop::UnknownOption => e
+    puts "Unknown option \n #{@banner}"
+    exit 1
+  end
+
+  def only_one_filename?
+    puts "both filenames are required\n #{@banner}" if only_one_filename_specified?
+  end
+
+  def only_one_filename_specified?
+    (invalid_filename?(@file1) and (not invalid_filename?(@file2))) or
+    ((not invalid_filename?(@file1)) and (invalid_filename?(@file2)))
+  end
+
+  def no_filenames_specified?
+    invalid_filename?(@file1) and invalid_filename?(@file2)
+  end
+
+  def invalid_filename?(parameter)
+    parameter.nil? or parameter.empty?
+  end
+end
+
+console = MergeCommandLine.new
+file1, file2 = console.process_command_line
+#utility = Mergeit::Merge.new
+#utility.say_hello(file1, file2)

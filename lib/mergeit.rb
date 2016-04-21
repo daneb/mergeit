@@ -5,8 +5,10 @@ module Mergeit
     def initialize
     end
 
-    def say_hello
+    def say_hello(file1, file2)
       puts 'Hello World'
+      puts file1
+      puts file2
     end
   end
 end
