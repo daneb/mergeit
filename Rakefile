@@ -13,6 +13,7 @@ namespace :mergeit do
 
   desc 'Run tests'
   task :tests do
+    sh 'cucumber'
     sh 'rspec spec/'
   end
 end

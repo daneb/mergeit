@@ -1,7 +1,39 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
+require "slop"
 require "mergeit"
+require 'byebug'
 
-utility = Mergeit::Merge.new
-utility.say_hello('file1', 'file2')
+def no_arguments?
+  puts @banner unless both_filenames_specified?
+end
+
+def only_one_filename_specified?
+  puts "both filenames are required\n #{@banner}" if valid_file?(@result[:file1]) or valid_file?(@result[:file2])
+end
+
+def both_filenames_specified?
+  not (valid_file?(@result[:file1]) and valid_file?(@result[:file2]))
+end
+
+def valid_file?(parameter)
+  not (parameter.nil? or parameter.empty?)
+end
+
+opts = Slop.parse do |o| 
+  o.string '-f1', '--file1', 'First source file'
+  o.string '-f2', '--file2', 'Second source file'
+  o.on '-v', '--version' do
+    puts Slop::VERSION
+    exit
+  end
+end
+
+@banner =  opts.to_s
+@result = opts.to_hash
+exit if no_arguments?
+exit if only_one_filename_specified?
+
+#utility = Mergeit::Merge.new
+#utility.say_hello('file1', 'file2')
