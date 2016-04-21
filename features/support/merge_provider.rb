@@ -5,20 +5,28 @@ class MergeTest
 
   VALID_BANNER = "usage: bin/mergeit [options]\n    -f1, --file1   First source file\n    -f2, --file2   Second source file\n    -v, --version  \n"
 
-  def application
+  def app
     "bin/mergeit"
   end
 
   def application_with_incorrect_option_name
-    "#{application} -p1 hello.txt -p2 world.txt"
+    "#{app} -p1 hello.txt -p2 world.txt"
+  end
+
+  def application_with_no_first_file
+    "#{app} -f1 hello.txt -f2"
   end
 
   def application_with_no_second_file
-    "#{application} -f1 hello.txt -f2 world.txt"
+    "#{app} -f1 -f2 hello.txt"
+  end
+
+  def application_with_no_second_option
+    "#{app} -f1 hello.txt"
   end
 
   def execute_without_arguments
-    @stdout = %x[ #{application} ]
+    @stdout = %x[#{app}]
     true
   rescue Exception => e
     false
@@ -32,7 +40,28 @@ class MergeTest
   end
 
   def use_only_one_argument
-    @incorrect_stdout = %x[ #{application} -f1 test.txt ]
+    @incorrect_stdout = %x[ #{app} -f1 test.txt ]
+    true
+  rescue Exception => e
+    false
+  end
+
+  def only_input_second_filename
+    @incorrect_stdout = %x[ #{ application_with_no_first_file }]
+    true
+  rescue Exception => e
+    false
+  end
+
+  def only_input_first_filename
+    @incorrect_stdout = %x[ #{application_with_no_second_file} ]
+    true
+  rescue Exception => e
+    false
+  end
+
+  def only_first_option_and_first_filename
+    @incorrect_stdout = %x[ #{application_with_no_second_option} ]
     true
   rescue Exception => e
     false
@@ -42,8 +71,16 @@ class MergeTest
     @stdout == VALID_BANNER
   end
 
-  def incorrect_argument_name
-    @incorrect_stdout == "unknown option -p"
+  def notified_with_unknown_option
+    @incorrect_stdout == "unknown option `-p'\n"
+  end
+
+  def notified_missing_argument
+    @incorrect_stdout.include?('missing argument')
+  end
+
+  def notified_missing_filenames
+    @incorrect_stdout.include?('both filenames are required')
   end
 
 end
