@@ -20,7 +20,7 @@ describe Mergeit::MergeData do
   context 'Validate the line of each file' do
     it 'should split the line' do
       line = '192.168.7.11: 1,2,3,45'
-      expect(@merge_data.split_line(line).length).to eq Mergeit::Config::SUPPORTED_PARTS[:size] 
+      expect(@merge_data.split_line(line).length).to eq Mergeit::Config::SUPPORTED_PARTS[:size]
     end
 
     it 'should not split the line if it does not contain pre-defined delimeter' do
@@ -44,21 +44,39 @@ describe Mergeit::MergeData do
     end
 
     it 'should validate if the second part is in CSV format' do
-      partB = "1,2,3,4,5000,123234" 
+      partB = "1,2,3,4,5000,123234"
       expect(@merge_data.is_valid_csv?(partB)).to eq 0
     end
 
-    it 'should fail to validate as csv if letters in the sequence' do
+    it 'should fail validation as csv if letters in the sequence' do
       part_front = "AAA1,2,3,4,5"
       part_within = "1000,2344,54353,ABC,312313,12,3,4"
-      part_end = "123,3,4,5777777777788899999999999999999999,2a23232"
-      expect(@merge_data.is_valid_csv?(part_front)).to eq nil 
+      part_end = "123,3,4,5777777777788899999999999999999999,223232a"
+      expect(@merge_data.is_valid_csv?(part_front)).to eq nil
       expect(@merge_data.is_valid_csv?(part_within)).to eq nil
       expect(@merge_data.is_valid_csv?(part_end)).to eq nil
     end
 
+    it 'should fail to validate as csv if there are any symbols in the sequence' do
+      part_front = "#\{\!\@\#\}1,2,3,4,5"
+      part_within = "1000,2344,54353,^$%,312313,12,3,4"
+      part_end = "123,3,4,5777777777788899999999999999999999,2%#$%"
+      expect(@merge_data.is_valid_csv?(part_front)).to eq nil
+      expect(@merge_data.is_valid_csv?(part_within)).to eq nil
+      expect(@merge_data.is_valid_csv?(part_end)).to eq nil
+    end
+
+    it 'should support floating points but without e notation' do
+      part_front = "1.123241,2,3,4,5"
+      part_within = "1000,2344,54353,54244242342.342342,312313,12,3,4"
+      part_end = "123,3,4,5777777777788899999999999999999999,24242342342342342342342.1"
+      expect(@merge_data.is_valid_csv?(part_front)).to eq 0
+      expect(@merge_data.is_valid_csv?(part_within)).to eq 0
+      expect(@merge_data.is_valid_csv?(part_end)).to eq 0
+    end
+
     # it 'should fail to validate as csv if it contains any letters at the start' do
-    #   partB = 
+    #   partB =
     #   expect(@merge_data.is_valid_csv?(part))
     # end
   end
