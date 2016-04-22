@@ -13,7 +13,6 @@ module Mergeit
     end
 
     def merge
-      merge_data = MergeData.new(@input_files)
     end
 
     protected
