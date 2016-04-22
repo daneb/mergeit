@@ -4,6 +4,8 @@ module Mergeit
   class Merge
     attr_reader :input_files, :errors
 
+    class MergeError < StandardError; end
+
     def initialize(input_files)
       @errors = []
       @input_files = input_files
@@ -12,8 +14,7 @@ module Mergeit
 
     protected
     def print_errors_and_exit
-      @errors.each { |error| puts error }
-      exit
+      raise MergeError.new(@errors.join(","))
     end
 
     def validate_input_files

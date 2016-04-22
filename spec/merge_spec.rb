@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'byebug'
 
  describe Mergeit::Merge do
   before :each do
@@ -24,12 +25,16 @@ require 'spec_helper'
     end
 
     it 'should notify if any or both files do not exist' do
-      dud_file_iut = Mergeit::Merge.new([@file1, '/etc/hostages'])
-      expect(dud_file_iut.validate_input_files).to eq ["/etc/hostages does not exist"]
+      expect{Mergeit::Merge.new([@file1, '/etc/hostages'])}.to raise_error(Mergeit::Merge::MergeError, '/etc/hostages does not exist')
     end
 
     it 'should confirm if the files are ASCII' do
       expect(@iut.validate_input_files).to be true
+    end
+
+    it 'should notify if any or both files are not ASCII' do
+      errors = '/bin/cat not ascii,/bin/cp not ascii'
+      expect{Mergeit::Merge.new(['/bin/cat', '/bin/cp'])}.to raise_error(Mergeit::Merge::MergeError, errors)
     end
   end
 
