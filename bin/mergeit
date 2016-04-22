@@ -77,8 +77,13 @@ class MergeCommandLine
   end
 end
 
-console = MergeCommandLine.new
-file1, file2 = console.process_command_line
-exit if file1.nil? or file2.nil?
-utility = Mergeit::Merge.new
-utility.say_hello([file1, file2])
+# Main
+begin
+  console = MergeCommandLine.new
+  file1, file2 = console.process_command_line
+  exit if file1.nil? or file2.nil?
+  utility = Mergeit::Merge.new([file1, file2])
+rescue Mergeit::Merge::MergeError => e
+  puts "Errors from merge: #{e.message}"
+  exit
+end
