@@ -12,6 +12,10 @@ module Mergeit
       raise_error unless validate_input_files
     end
 
+    def merge
+      merge_data = MergeData.new(@input_files)
+    end
+
     protected
 
     def validate_input_files
