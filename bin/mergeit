@@ -77,8 +77,8 @@ class MergeCommandLine
   end
 end
 
+# Main
 begin
-  byebug
   console = MergeCommandLine.new
   file1, file2 = console.process_command_line
   exit if file1.nil? or file2.nil?
