@@ -11,7 +11,7 @@ class MergeCommandLine
   def process_command_line
     parse_options 
     setup_globals
-    return [nil, nil] unless validate_input?
+    return [nil, nil] unless valid_input?
     [ @file1, @file2 ]
   rescue Exception => e
       puts e.message
@@ -44,21 +44,21 @@ class MergeCommandLine
   def run_without_input?
     if no_filenames_specified?
       print_banner
-      return false
+      return true
     end
-    true
+    false
   end
 
   def run_with_one_filename_only?
     if one_of_files_invalid?
       print_banner('both filenames are required')
-      return false
+      return true
     end
-    true
+    false
   end
 
-  def validate_input?
-    return false if run_without_input? and run_with_one_filename_only? 
+  def valid_input?
+    return false if run_without_input? or run_with_one_filename_only? 
     true
   rescue Slop::UnknownOption => e
     puts "Unknown option \n #{@banner}"
@@ -79,5 +79,6 @@ end
 
 console = MergeCommandLine.new
 file1, file2 = console.process_command_line
-#utility = Mergeit::Merge.new
-#utility.say_hello(file1, file2)
+exit if file1.nil? or file2.nil?
+utility = Mergeit::Merge.new
+utility.say_hello([file1, file2])
