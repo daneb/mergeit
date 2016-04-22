@@ -3,5 +3,6 @@ module Mergeit
     FILE_FORMAT = { delimeter: ':'}
     SUPPORTED_PARTS = { size: 2 }
     CSV_FORMAT = { regex: '(^((\d+,)|(\d+[,.]\d+))+(\d+|(\d+[,.]\d+))$)' }
+    NUMBERS = { delimeter: ','}
   end
 end

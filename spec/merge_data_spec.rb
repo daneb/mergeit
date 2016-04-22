@@ -6,7 +6,7 @@ describe Mergeit::MergeData do
     @file1 = 'spec/support/file1.txt'
     @file2 = 'spec/support/file2.txt'
     @file_inputs = [@file1, @file2]
-    @merge_data = Mergeit::MergeData
+    @merge_data = Mergeit::MergeData.new
     Mergeit::MergeData.send(:public, *Mergeit::MergeData.private_instance_methods)
   end
 
@@ -74,27 +74,21 @@ describe Mergeit::MergeData do
       expect(@merge_data.is_valid_csv?(part_within)).to eq 0
       expect(@merge_data.is_valid_csv?(part_end)).to eq 0
     end
-
-    # it 'should fail to validate as csv if it contains any letters at the start' do
-    #   partB =
-    #   expect(@merge_data.is_valid_csv?(part))
-    # end
   end
 
+  context 'merging data into hash' do
+    it 'should insert the key and values if the key does not already exist' do
+      @merge_data.hash_of_merged_data = {}
+      @merge_data.hash_of_merged_data.store('127.0.0.1', ['1','2','3','4','5'])
+      @merge_data.store_values_in_existing_key('127.0.0.1', ['6','7','8'])
+      expect(@merge_data.hash_of_merged_data['127.0.0.1']).to eq ["1", "2", "3", "4", "5", "6", "7", "8"]
+    end
 
-  context 'Check if key exists' do
+    it 'should append the values if the key does exist' do
+      @merge_data.hash_of_merged_data = {}
+      @merge_data.store_new_key_and_values('127.0.0.1', ['1','2','3','4','5'])
+      expect(@merge_data.hash_of_merged_data['127.0.0.1']).to eq ['1','2','3','4','5']
+    end
+
   end
-
-  context 'Insert new key value pair' do
-  end
-
-  context 'Append to existing key the new values' do
-  end
-
-  context 'Remove duplicates from all values for each key' do
-  end
-
-  context 'Sort all values for each key' do
-  end
-
 end
