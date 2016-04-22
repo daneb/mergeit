@@ -1,4 +1,5 @@
 require 'mergeit/config'
+require 'ipaddr'
 
 module Mergeit
   module MergeData
@@ -16,8 +17,19 @@ module Mergeit
       File.open(filename, 'r')
     end
 
+    def self.is_ip_addr?(part)
+      ip = IPAddr.new(part)
+      ip.ipv4?
+    rescue IPAddr::InvalidAddressError => e
+      false
+    end
+
+    def self.is_valid_csv?(part)
+      part =~ /#{Mergeit::Config::CSV_FORMAT[:regex]}/
+    end
+
     def self.split_line(line)
-      line.split(Mergeit::Config::FILE_FORMAT[:delimeter])
+      line.split(Mergeit::Config::FILE_FORMAT[:delimeter], Mergeit::Config::SUPPORTED_PARTS[:size])
     end
 
     def self.merge_into_hash(file)
