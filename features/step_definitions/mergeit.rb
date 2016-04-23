@@ -55,3 +55,15 @@ end
 When(/^I dont specify the second option and second filename$/) do
   expect(@test.only_first_option_and_first_filename).to eq true
 end
+
+Given(/^My valid command line options and arguments$/) do
+  @test.application_with_valid_options_and_arguments
+end
+
+When(/^I specify the first filename and the second$/) do
+  expect(@test.execute_correctly).to eq true 
+end
+
+Then(/^I want to see the merged result$/) do
+  expect(@test.final_result).to eq true
+end

@@ -28,3 +28,8 @@ Scenario: No second option
   Given My incorrect usage of the applications second option
   When I dont specify the second option and second filename
   Then I want to be notified 'both filenames are required'
+
+Scenario: Print the merged data to stdout
+  Given My valid command line options and arguments
+  When I specify the first filename and the second
+  Then I want to see the merged result

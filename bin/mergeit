@@ -3,7 +3,6 @@
 require "bundler/setup"
 require "slop"
 require "mergeit"
-require "byebug"
 
 class MergeCommandLine
   attr_reader :banner, :opts
@@ -83,6 +82,7 @@ begin
   file1, file2 = console.process_command_line
   exit if file1.nil? or file2.nil?
   utility = Mergeit::Merge.new([file1, file2])
+  puts utility.merge
 rescue Mergeit::Merge::MergeError => e
   puts "Errors from merge: #{e.message}"
   exit

@@ -1,5 +1,3 @@
-require 'byebug'
-
 @hash = {}
 
 def process_to_hash(ip, numbers)
@@ -18,7 +16,6 @@ def to_float_or_int(v)
 end
 
 def sanitize_hash
-  byebug
   result = @hash.map { |key,values|
     values.uniq!
     values.sort!

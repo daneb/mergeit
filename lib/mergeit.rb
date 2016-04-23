@@ -1,4 +1,6 @@
 require "mergeit/version"
+require "file_validation"
+require "merge_data"
 
 module Mergeit
   class Merge
@@ -10,9 +12,11 @@ module Mergeit
       @errors = []
       @input_files = input_files
       raise_error unless validate_input_files
+      @mergeit = Mergeit::MergeData.new
     end
 
     def merge
+      @mergeit.merge_data(@input_files)
     end
 
     protected
