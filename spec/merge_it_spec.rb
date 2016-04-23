@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'byebug'
 
  describe Mergeit::Merge do
   before :each do
@@ -36,9 +35,5 @@ require 'byebug'
       errors = '/bin/cat not ascii,/bin/cp not ascii'
       expect{Mergeit::Merge.new(['/bin/cat', '/bin/cp'])}.to raise_error(Mergeit::Merge::MergeError, errors)
     end
-  end
-
-  context 'Print result to stdout' do
-    
   end
 end

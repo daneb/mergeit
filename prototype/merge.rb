@@ -10,11 +10,18 @@ def process_to_hash(ip, numbers)
   end
 end
 
+# To Float or To Integer
+def to_float_or_int(v)
+    v.match('\.').nil? ? Integer(v) : Float(v) 
+end
+
 def sanitize_hash
-  @hash.map { |key,value|
-    value.uniq!
-    value.sort!
+  result = @hash.map { |key,values|
+    values.uniq!
+    values.sort!
+    values.map! {|value| to_float_or_int(value) }
   }
+  result
 end
 
 for file in (['./file1.txt', './file2.txt']) do
@@ -30,4 +37,4 @@ end
 
 sanitize_hash
 
-puts @hash.inspect
+puts @hash

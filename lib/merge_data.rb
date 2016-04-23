@@ -6,6 +6,11 @@ module Mergeit
     attr_reader :input_files
     attr_accessor :hash_of_merged_data
 
+    def initialize
+    	@input_files = []
+    	@hash_of_merged_data = {}
+    end
+
     def merge_data(input_files)
       for filename in input_files
         merge_into_hash(filename)
@@ -52,11 +57,18 @@ module Mergeit
       end
     end
 
+    # To Float or To Integer
+    def to_float_or_int(v)
+      v.match('\.').nil? ? Integer(v) : Float(v)
+    end
+
     def sanitize_hash
-      @hash_of_merged_data.map { |key,value|
-        value.uniq!
-        value.sort!
-      }
+      @hash_of_merged_data.map { |key,values|
+        values.map! {|value| to_float_or_int(value) }
+        values.uniq!
+        values.sort!
+        { key => values }
+      }.reduce(:merge)
     end
 
     def merge_into_hash(file)
