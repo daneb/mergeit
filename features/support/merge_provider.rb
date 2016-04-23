@@ -4,7 +4,7 @@ class MergeTest
   attr_reader :incorrect_stdout
 
   VALID_BANNER = "usage: bin/mergeit [options]\n    -f1, --file1   First source file\n    -f2, --file2   Second source file\n    -v, --version  \n"
-  VALID_MERGE = "1.2.3.4: [1, 3, 4, 5, 6]\n1.2.3.5: [6, 7, 8, 9]\n1.2.3.6: [1]\n"
+  VALID_MERGE = "1.2.3.4: 1,3,4,5,6\n1.2.3.5: 6,7,8,9\n1.2.3.6: 1\n"
 
   def app
     "bin/mergeit"
@@ -96,7 +96,6 @@ class MergeTest
   end
 
   def final_result
-    byebug
     @stdout == VALID_MERGE 
   end
 

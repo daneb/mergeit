@@ -88,7 +88,7 @@ begin
   exit if file1.nil? or file2.nil?
   utility = Mergeit::Merge.new([file1, file2])
   utility.merge.each { |key,value|
-    puts "#{key}: #{value}"
+    puts "#{key}: #{value.join(",")}"
   }
 rescue Mergeit::Merge::MergeError => e
   puts "Errors from merge: #{e.message}"
